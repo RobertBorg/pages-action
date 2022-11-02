@@ -22,6 +22,9 @@ inputs:
   branch:
     description: "The name of the branch you want to deploy to"
     required: false
+  cd:
+    description: "Change directory to this before executing wrangler"
+    required: false
 runs:
   using: "node16"
   main: "index.js"

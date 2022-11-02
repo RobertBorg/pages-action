@@ -54,6 +54,7 @@ try {
   const directory = getInput("directory", { required: true });
   const gitHubToken = getInput("gitHubToken", { required: true });
   const branch = getInput("branch", { required: false });
+  const cd = getInput("cd", { required: false }) ?? ".";
 
   const octokit = getOctokit(gitHubToken);
 
@@ -64,8 +65,10 @@ try {
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-  
-    $$ npx wrangler@2 pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
+
+    $$ cd ${cd} && npx wrangler@2 pages publish "${directory}" --project-name="${projectName}" ${
+      branch ? '--branch="' + branch + '"' : ""
+    }
     `;
 
     const response = await fetch(
